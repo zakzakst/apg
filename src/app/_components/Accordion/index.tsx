@@ -4,14 +4,12 @@ import { useMemo, useState } from "react";
 // NOTE: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/examples/accordion/
 
 // TODO:
-// - タイトルタグを変更できるようにする
-// https://stackoverflow.com/questions/33471880/dynamic-tag-name-in-react-jsx
 // - スタイル付ける
 // - テストコード書く
 // - storybook
 // - react ariaみたいに子要素をタグで記述するにはどうすればいいか調べる
 
-// type HeadingTagName = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+type HeadingTagName = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 type Props = {
   /**
@@ -24,18 +22,26 @@ type Props = {
    * 初期表示時にアコーディオンを開く
    */
   expanded?: boolean;
-  // titleTag?: HeadingTagName;
+  titleTag?: HeadingTagName;
 };
 
-const Accordion = ({ id, title, content, expanded = false }: Props) => {
+const Accordion = ({
+  id,
+  title,
+  content,
+  expanded = false,
+  titleTag = "h3",
+}: Props) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded);
   const buttonId = useMemo(() => `${id}-button`, [id]);
   const contentId = useMemo(() => `${id}-content`, [id]);
   const onClickButton = () => setIsExpanded(!isExpanded);
+  // NOTE: 下記の記述だと見出しタグのTypeScript制限かからなさそう？（設定できない属性とか）余裕ある時調べる
+  const TitleTag = titleTag;
 
   return (
     <div>
-      <h3>
+      <TitleTag>
         {/* NOTE: onClickのみでフォーカス時のキーボードEnterに対応できる */}
         <button
           type="button"
@@ -46,7 +52,7 @@ const Accordion = ({ id, title, content, expanded = false }: Props) => {
         >
           {title}
         </button>
-      </h3>
+      </TitleTag>
       <div
         id={contentId}
         role="region"

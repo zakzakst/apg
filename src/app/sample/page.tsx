@@ -10,6 +10,7 @@ const SamplePage = () => {
         title="accordion title"
         content="accordion content"
         expanded
+        titleTag="h2"
       />
     </>
   );
