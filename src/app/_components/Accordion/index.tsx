@@ -1,23 +1,22 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 // NOTE: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/examples/accordion/
 
 // TODO:
 // - スタイル付ける
 // - テストコード書く
-// - コンポーネント外から開閉を操作できるようにする（useEffect利用してexpandedの変化を連動させる？）
-// - カスタムクラスを適用できるようにする
 // - storybook
+
+// NOTE: 余裕ある時に挑戦してみる
 // - react ariaみたいに子要素をタグで記述するにはどうすればいいか調べる
+// - コンポーネント外から開閉を操作できるようにする（callbackで操作する場合、外から操作しなくていい時でも、タイトルクリック時の処理をcallbackに記載する必要が出ると思う。それは冗長で使いにくい気がする。いい方法ないか？）
+// - TitleTagの箇所、現在の記述だと見出しタグのTypeScript制限かからなさそう？（設定できない属性とか）余裕ある時調べる
 
 type HeadingTagName = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 type Props = {
-  /**
-   * ID（aria属性に反映される）
-   */
-  id: string;
   title: React.ReactNode;
   content: React.ReactNode;
   /**
@@ -25,25 +24,31 @@ type Props = {
    */
   expanded?: boolean;
   titleTag?: HeadingTagName;
+  className?: string;
 };
 
 const Accordion = ({
-  id,
   title,
   content,
   expanded = false,
   titleTag = "h3",
+  className = "",
 }: Props) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded);
-  // TODO: この方法だと、コンポーネントを複数個所で利用した時にidが重複する可能性がある。対応方法考える
-  const buttonId = useMemo(() => `${id}-button`, [id]);
-  const contentId = useMemo(() => `${id}-content`, [id]);
-  const onClickButton = () => setIsExpanded(!isExpanded);
-  // NOTE: 下記の記述だと見出しタグのTypeScript制限かからなさそう？（設定できない属性とか）余裕ある時調べる
+  const [id, setId] = useState<string>("");
+  const buttonId = useMemo(() => `button-${id}`, [id]);
+  const contentId = useMemo(() => `content-${id}`, [id]);
   const TitleTag = titleTag;
 
+  const onClickButton = () => setIsExpanded(!isExpanded);
+
+  useEffect(() => {
+    // NOTE: cryptoモジュールを試したが、ブラウザとNode.jsで使い方が違い、「描画されるHTMLが一致しない」エラーが出た。そのため、uuidを使うことにした。
+    setId(uuidv4());
+  }, []);
+
   return (
-    <div>
+    <div className={className || undefined}>
       <TitleTag>
         {/* NOTE: onClickのみでフォーカス時のキーボードEnterに対応できる */}
         <button

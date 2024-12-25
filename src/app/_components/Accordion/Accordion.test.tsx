@@ -8,13 +8,7 @@ import Accordion from "./";
 describe("Accordion", () => {
   it("エラーが起きずに描画される", () => {
     const { getByText } = render(
-      <Accordion
-        id="accordion"
-        title="タイトル"
-        content="内容"
-        expanded
-        titleTag="h2"
-      />
+      <Accordion title="タイトル" content="内容" expanded titleTag="h2" />
     );
     expect(getByText("タイトル")).toBeInTheDocument();
   });
