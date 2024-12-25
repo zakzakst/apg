@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 // TODO:
 // - スタイル付ける
 // - テストコード書く
+// - コンポーネント外から開閉を操作できるようにする（useEffect利用してexpandedの変化を連動させる？）
 // - storybook
 // - react ariaみたいに子要素をタグで記述するにはどうすればいいか調べる
 
@@ -33,6 +34,7 @@ const Accordion = ({
   titleTag = "h3",
 }: Props) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded);
+  // TODO: この方法だと、コンポーネントを複数個所で利用した時にidが重複する可能性がある。対応方法考える
   const buttonId = useMemo(() => `${id}-button`, [id]);
   const contentId = useMemo(() => `${id}-content`, [id]);
   const onClickButton = () => setIsExpanded(!isExpanded);
