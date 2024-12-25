@@ -6,12 +6,13 @@ const SamplePage = () => {
     <>
       <Sample />
       <Accordion
-        id="accordion"
         title="accordion title"
         content="accordion content"
         expanded
         titleTag="h2"
+        className="custom-class"
       />
+      <Accordion title="accordion title 2" content="accordion content 2" />
     </>
   );
 };
