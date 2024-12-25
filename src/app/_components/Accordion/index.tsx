@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 // - スタイル付ける
 // - テストコード書く
 // - コンポーネント外から開閉を操作できるようにする（useEffect利用してexpandedの変化を連動させる？）
+// - カスタムクラスを適用できるようにする
 // - storybook
 // - react ariaみたいに子要素をタグで記述するにはどうすればいいか調べる
 
