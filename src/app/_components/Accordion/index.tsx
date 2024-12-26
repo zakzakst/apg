@@ -6,8 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 // TODO:
 // - スタイル付ける
-// - テストコード書く
-// - storybook
+// - storybook（テストコードも書く）
 
 // NOTE: 余裕ある時に挑戦してみる
 // - react ariaみたいに子要素をタグで記述するにはどうすればいいか調べる
