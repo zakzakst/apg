@@ -1,8 +1,10 @@
 "use client";
+// NOTE: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/examples/accordion/
 
 import { useMemo, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-// NOTE: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/examples/accordion/
+import classNames from "classnames";
+import { accordion as styles } from "./styles.css";
 
 // TODO:
 // - スタイル付ける
@@ -47,8 +49,8 @@ const Accordion = ({
   }, []);
 
   return (
-    <div className={className || undefined}>
-      <TitleTag>
+    <div className={classNames(className || undefined, styles.main)}>
+      <TitleTag className={styles.title}>
         {/* NOTE: onClickのみでフォーカス時のキーボードEnterに対応できる */}
         <button
           type="button"
