@@ -41,7 +41,7 @@ describe("Accordion", () => {
   });
 
   /**
-   * 操作の確認
+   * 挙動の確認
    */
   it("アコーディオンが開閉する", () => {
     const { getByText } = render(<Accordion title="タイトル" content="内容" />);

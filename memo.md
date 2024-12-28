@@ -1,3 +1,5 @@
+https://www.w3.org/WAI/ARIA/apg/patterns/
+
 ## 余裕ある時やる
 
 - hygen でのファイル生成

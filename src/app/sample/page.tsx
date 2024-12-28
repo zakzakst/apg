@@ -1,11 +1,20 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Sample from "@/app/_components/Sample";
 import Accordion from "@/app/_components/Accordion";
 import Alert from "@/app/_components/Alert";
+import Breadcrumb, { BreadcrumbItems } from "@/app/_components/Breadcrumb";
 
 const SamplePage = () => {
   const [isShowAlert, setIsShowAlert] = useState<boolean>(false);
+
+  const breadcrumbItems = useMemo<BreadcrumbItems>(() => {
+    return [
+      { href: "/", label: "Home" },
+      { href: "/products", label: "Products" },
+      { href: "/sample", label: "Sample" },
+    ];
+  }, []);
 
   return (
     <>
@@ -22,6 +31,7 @@ const SamplePage = () => {
         アラート表示変更
       </button>
       <Alert isShow={isShowAlert}>アラート</Alert>
+      <Breadcrumb items={breadcrumbItems} ariaLabel="パンくず" />
     </>
   );
 };
