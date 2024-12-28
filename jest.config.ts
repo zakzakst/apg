@@ -13,6 +13,9 @@ const config: Config = {
   moduleNameMapper: {
     "@/(.*)$": "<rootDir>/src/$1",
   },
+  // transform: {
+  //   "\\.css\\.ts$": "@vanilla-extract/jest-transform",
+  // },
 };
 
 export default createJestConfig(config);

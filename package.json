@@ -36,6 +36,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vanilla-extract/jest-transform": "^1.1.12",
     "@vanilla-extract/next-plugin": "^2.4.8",
     "@vanilla-extract/webpack-plugin": "^2.3.16",
     "eslint": "^9",

@@ -4,7 +4,8 @@
 import { useMemo, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
-import { accordion as styles } from "./styles.css";
+import type { HeadingTagName } from "@/app/_utils/types/common";
+// import { accordion as styles } from "./styles.css";
 
 // TODO:
 // - スタイル付ける
@@ -14,8 +15,6 @@ import { accordion as styles } from "./styles.css";
 // - コンポーネント外から開閉を操作できるようにする（callbackで操作する場合、外から操作しなくていい時でも、タイトルクリック時の処理をcallbackに記載する必要が出ると思う。それは冗長で使いにくい気がする。いい方法ないか？）
 // - TitleTagの箇所、現在の記述だと見出しタグのTypeScript制限かからなさそう？（設定できない属性とか）余裕ある時調べる
 // - storybookのテストが自動で実行される関係で、storybookページ表示時に内容の開閉がチラつく。テスト実行を手動にする方法がないか調べる
-
-type HeadingTagName = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 type Props = {
   title: React.ReactNode;
@@ -49,8 +48,10 @@ const Accordion = ({
   }, []);
 
   return (
-    <div className={classNames(className || undefined, styles.main)}>
-      <TitleTag className={styles.title}>
+    // <div className={classNames(className || undefined, styles.main)}>
+    <div className={classNames(className || undefined)}>
+      {/* <TitleTag className={styles.title}> */}
+      <TitleTag>
         {/* NOTE: onClickのみでフォーカス時のキーボードEnterに対応できる */}
         <button
           type="button"
