@@ -6,6 +6,8 @@ const createJestConfig = nextJest({
 });
 
 const config: Config = {
+  // このあたり下記の記事を見て書いた。公式とちょっと違っているので時間ある時に見なおす
+  // https://zenn.dev/hamworks/articles/3d623eede50de4
   coverageProvider: "v8",
   testEnvironment: "jest-environment-jsdom",
   // Add more setup options before each test is run
