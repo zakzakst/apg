@@ -8,3 +8,7 @@ https://www.w3.org/WAI/ARIA/apg/patterns/
 - storybook を build したものを github pages にアップ（できれば ci でやりたい）
 - storybook a11y 入れる
 - storybook の visual tests 試してみたい
+
+## メモ
+
+- Next14 にして style x と jest の組み合わせ試してみる
