@@ -5,6 +5,7 @@ import classNames from "classnames";
 
 // TODO:
 // - スタイル付ける
+// - classNameのデフォルト値設定不要？（そうすればundefinedの分岐の記述も不要になる）
 
 // NOTE: 余裕ある時に挑戦してみる
 // - storybookにどのように表示するか、他の事例調べる（アラート表示ボタンを一緒に入れて挙動確認できるようにする？）

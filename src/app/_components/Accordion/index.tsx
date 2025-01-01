@@ -9,6 +9,7 @@ import type { HeadingTagName } from "@/app/_utils/types/common";
 
 // TODO:
 // - スタイル付ける
+// - classNameのデフォルト値設定不要？（そうすればundefinedの分岐の記述も不要になる）
 
 // NOTE: 余裕ある時に挑戦してみる
 // - react ariaみたいに子要素をタグで記述するにはどうすればいいか調べる
