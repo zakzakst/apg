@@ -4,6 +4,7 @@ import Sample from "@/app/_components/Sample";
 import Accordion from "@/app/_components/Accordion";
 import Alert from "@/app/_components/Alert";
 import Breadcrumb, { BreadcrumbItems } from "@/app/_components/Breadcrumb";
+import Button from "@/app/_components/Button";
 
 const SamplePage = () => {
   const [isShowAlert, setIsShowAlert] = useState<boolean>(false);
@@ -32,6 +33,14 @@ const SamplePage = () => {
       </button>
       <Alert isShow={isShowAlert}>アラート</Alert>
       <Breadcrumb items={breadcrumbItems} ariaLabel="パンくず" />
+      <Button
+        pressed
+        disabled
+        haspopup
+        onClick={() => console.log("on click button")}
+      >
+        ボタン
+      </Button>
     </>
   );
 };
