@@ -5,6 +5,7 @@ import Accordion from "@/app/_components/Accordion";
 import Alert from "@/app/_components/Alert";
 import Breadcrumb, { BreadcrumbItems } from "@/app/_components/Breadcrumb";
 import Button from "@/app/_components/Button";
+import Checkbox from "@/app/_components/Checkbox";
 
 const SamplePage = () => {
   const [isShowAlert, setIsShowAlert] = useState<boolean>(false);
@@ -47,6 +48,7 @@ const SamplePage = () => {
       >
         ボタン
       </Button>
+      <Checkbox legend="Checkbox" className="custom-class" />
     </>
   );
 };
