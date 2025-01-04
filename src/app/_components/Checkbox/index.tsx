@@ -1,60 +1,62 @@
 "use client";
 // https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/ （Checkbox (Mixed-State) Exampleのほう）
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import classNames from "classnames";
-import { checkbox as styles } from "./styles.css";
+// import { checkbox as styles } from "./styles.css";
 
 // TODO:
 // - スタイル付ける
-// - チェックボックスの項目をPropsで受け取る
+// - 1つ目の要素は必須の型定義、ジェネリクス型つかって汎用化できないか考える
+// - onChangeInputなどでas CheckboxItemsをつけているが、より良い方法がないか考える
 
-type CheckItem = {
+type CheckboxItem = {
   id: string;
   label: string;
   checked: boolean;
 };
 
+export type CheckboxItems = [CheckboxItem, ...CheckboxItem[]];
+
 type Props = {
   legend: string;
+  // NOTE: 1つ以上のチェックボックスがあることを保証するため、1つ目の要素は必須としている
+  items: CheckboxItems;
   className?: string;
+  onChange: (items: CheckboxItems) => void;
 };
 
-const Checkbox = ({ legend, className }: Props) => {
-  const [checkItems, setCheckItems] = useState<CheckItem[]>([
-    { id: "check1", label: "Check 1", checked: false },
-    { id: "check2", label: "Check 2", checked: false },
-  ]);
-
+const Checkbox = ({ legend, items, className, onChange }: Props) => {
   const allChecked = useMemo(() => {
-    const isAllChecked = checkItems.every((item) => item.checked === true);
-    const isAllUnChecked = checkItems.every((item) => item.checked === false);
+    const isAllChecked = items.every((item) => item.checked === true);
+    const isAllUnChecked = items.every((item) => item.checked === false);
     return isAllChecked ? "true" : isAllUnChecked ? "false" : "mixed";
-  }, [checkItems]);
+  }, [items]);
 
   const allControls = useMemo(() => {
-    return checkItems.map((item) => item.id).join(" ");
-  }, [checkItems]);
+    return items.map((item) => item.id).join(" ");
+  }, [items]);
 
   const onChangeInput = (id: string) => {
-    setCheckItems(
-      checkItems.map((item) =>
-        item.id === id ? { ...item, checked: !item.checked } : item
-      )
-    );
+    const changedItems = items.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    ) as CheckboxItems;
+    onChange(changedItems);
   };
 
   const onClickAll = () => {
     const isAllChecked = allChecked === "true";
-    setCheckItems(
-      checkItems.map((item) => ({ ...item, checked: !isAllChecked }))
-    );
+    const changedItems = items.map((item) => ({
+      ...item,
+      checked: !isAllChecked,
+    })) as CheckboxItems;
+    onChange(changedItems);
   };
 
   return (
     <fieldset
-      className={classNames(className, styles.main)}
-      // className={classNames(className)}
+      // className={classNames(className, styles.main)}
+      className={classNames(className)}
     >
       <legend>{legend}</legend>
       <div
@@ -67,7 +69,7 @@ const Checkbox = ({ legend, className }: Props) => {
         All
       </div>
       <ul>
-        {checkItems.map((item) => (
+        {items.map((item) => (
           <li key={item.id}>
             <input
               type="checkbox"

@@ -5,10 +5,14 @@ import Accordion from "@/app/_components/Accordion";
 import Alert from "@/app/_components/Alert";
 import Breadcrumb, { BreadcrumbItems } from "@/app/_components/Breadcrumb";
 import Button from "@/app/_components/Button";
-import Checkbox from "@/app/_components/Checkbox";
+import Checkbox, { CheckboxItems } from "@/app/_components/Checkbox";
 
 const SamplePage = () => {
   const [isShowAlert, setIsShowAlert] = useState<boolean>(false);
+  const [checkboxItems, setCheckboxItems] = useState<CheckboxItems>([
+    { id: "check1", label: "Check 1", checked: false },
+    { id: "check2", label: "Check 2", checked: false },
+  ]);
 
   const breadcrumbItems = useMemo<BreadcrumbItems>(() => {
     return [
@@ -48,7 +52,12 @@ const SamplePage = () => {
       >
         ボタン
       </Button>
-      <Checkbox legend="Checkbox" className="custom-class" />
+      <Checkbox
+        legend="Checkbox"
+        items={checkboxItems}
+        className="custom-class"
+        onChange={(items) => setCheckboxItems(items)}
+      />
     </>
   );
 };
