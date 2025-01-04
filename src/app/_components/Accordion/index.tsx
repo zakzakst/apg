@@ -9,7 +9,6 @@ import type { HeadingTagName } from "@/app/_utils/types/common";
 
 // TODO:
 // - スタイル付ける
-// - classNameのデフォルト値設定不要？（そうすればundefinedの分岐の記述も不要になる）
 
 // NOTE: 余裕ある時に挑戦してみる
 // - react ariaみたいに子要素をタグで記述するにはどうすればいいか調べる
@@ -33,7 +32,7 @@ const Accordion = ({
   content,
   expanded = false,
   titleTag = "h3",
-  className = "",
+  className,
 }: Props) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded);
   const [id, setId] = useState<string>("");
@@ -49,8 +48,8 @@ const Accordion = ({
   }, []);
 
   return (
-    // <div className={classNames(className || undefined, styles.main)}>
-    <div className={classNames(className || undefined)}>
+    // <div className={classNames(className, styles.main)}>
+    <div className={classNames(className)}>
       {/* <TitleTag className={styles.title}> */}
       <TitleTag>
         {/* NOTE: onClickのみでフォーカス時のキーボードEnterに対応できる */}

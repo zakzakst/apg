@@ -8,7 +8,6 @@ import { v4 as uuidv4 } from "uuid";
 
 // TODO:
 // - スタイル付ける（パンくず間のセパレーターを表現する際、読み上げツールで読み上げられないようにする）
-// - classNameのデフォルト値設定不要？（そうすればundefinedの分岐の記述も不要になる）
 
 // NOTE: 余裕ある時に挑戦してみる
 // - ariaLabelに空文字が設定された場合、意図した挙動にならない。対応方法を考える
@@ -30,7 +29,7 @@ type Props = {
 const Breadcrumb = ({
   items,
   ariaLabel = "パンくずリスト",
-  className = "",
+  className,
 }: Props) => {
   const itemsWithId = useMemo(() => {
     return items.map((item) => {
@@ -42,8 +41,8 @@ const Breadcrumb = ({
   }, [items]);
 
   return (
-    // <nav aria-label={ariaLabel} className={classNames(className || undefined, styles.nav)}>
-    <nav aria-label={ariaLabel} className={classNames(className || undefined)}>
+    // <nav aria-label={ariaLabel} className={classNames(className, styles.nav)}>
+    <nav aria-label={ariaLabel} className={classNames(className)}>
       <ol>
         {itemsWithId.map((item, index) => {
           const isCurrent = index === itemsWithId.length - 1;
