@@ -1,5 +1,5 @@
 ---
-to: src/app/_components/<%= name %>/styles.css.ts
+to: src/app/_components/<%= h.capitalize(name) %>/styles.css.ts
 ---
 import { style } from "@vanilla-extract/css";
 

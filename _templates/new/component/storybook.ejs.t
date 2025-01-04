@@ -1,14 +1,14 @@
 ---
-to: src/app/_components/<%= name %>/<%= name %>.stories.ts
+to: src/app/_components/<%= h.capitalize(name) %>/<%= h.capitalize(name) %>.stories.ts
 ---
 import type { Meta, StoryObj } from "@storybook/react";
 // import { expect, userEvent, within } from "@storybook/test";
 
-import <%= name %> from "./index";
+import <%= h.capitalize(name) %> from "./index";
 
 const meta = {
-  title: "Components/<%= name %>",
-  component: <%= name %>,
+  title: "Components/<%= h.capitalize(name) %>",
+  component: <%= h.capitalize(name) %>,
   parameters: {
     layout: "centered",
   },
@@ -16,7 +16,7 @@ const meta = {
   argTypes: {
     title: { control: "text" },
   },
-} as Meta<typeof <%= name %>>;
+} as Meta<typeof <%= h.capitalize(name) %>>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

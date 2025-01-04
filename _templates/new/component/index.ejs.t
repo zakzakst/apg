@@ -1,5 +1,5 @@
 ---
-to: src/app/_components/<%= name %>/index.tsx
+to: src/app/_components/<%= h.capitalize(name) %>/index.tsx
 ---
 "use client";
 // NOTE:
@@ -13,10 +13,10 @@ type Props = {
   title: string;
 };
 
-const <%= name %> = ({ title }: Props) => {
+const <%= h.capitalize(name) %> = ({ title }: Props) => {
   return (
     <div className={classNames(styles.main)}>{title}</div>
   );
 };
 
-export default <%= name %>;
+export default <%= h.capitalize(name) %>;

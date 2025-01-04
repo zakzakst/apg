@@ -1,10 +1,10 @@
 ---
-to: src/app/_components/<%= name %>/<%= name %>.test.tsx
+to: src/app/_components/<%= h.capitalize(name) %>/<%= h.capitalize(name) %>.test.tsx
 ---
 // import { render, fireEvent } from "@testing-library/react";
-// import <%= name %> from "./";
+// import <%= h.capitalize(name) %> from "./";
 
-describe("<%= name %>", () => {
+describe("<%= h.capitalize(name) %>", () => {
   /**
    * Propsの確認
    */
