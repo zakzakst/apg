@@ -31,8 +31,14 @@ const SamplePage = () => {
       <button onClick={() => setIsShowAlert(!isShowAlert)}>
         アラート表示変更
       </button>
-      <Alert isShow={isShowAlert}>アラート</Alert>
-      <Breadcrumb items={breadcrumbItems} ariaLabel="パンくず" />
+      <Alert isShow={isShowAlert} className="custom-class">
+        アラート
+      </Alert>
+      <Breadcrumb
+        items={breadcrumbItems}
+        ariaLabel="パンくず"
+        className="custom-class"
+      />
       <Button
         pressed
         disabled
