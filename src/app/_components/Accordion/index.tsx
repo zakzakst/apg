@@ -48,10 +48,13 @@ const Accordion = ({
   }, []);
 
   return (
-    // <div className={classNames(className, styles.main)}>
-    <div className={classNames(className)}>
-      {/* <TitleTag className={styles.title}> */}
-      <TitleTag>
+    <div
+      // className={classNames(className, styles.main)}
+      className={classNames(className)}
+    >
+      <TitleTag
+      // className={styles.title}
+      >
         {/* NOTE: onClickのみでフォーカス時のキーボードEnterに対応できる */}
         <button
           type="button"

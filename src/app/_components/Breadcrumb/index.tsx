@@ -41,8 +41,11 @@ const Breadcrumb = ({
   }, [items]);
 
   return (
-    // <nav aria-label={ariaLabel} className={classNames(className, styles.nav)}>
-    <nav aria-label={ariaLabel} className={classNames(className)}>
+    <nav
+      aria-label={ariaLabel}
+      // className={classNames(className, styles.nav)}
+      className={classNames(className)}
+    >
       <ol>
         {itemsWithId.map((item, index) => {
           const isCurrent = index === itemsWithId.length - 1;

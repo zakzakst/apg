@@ -1,30 +1,97 @@
-// "use client";
-// // https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/ （Checkbox (Mixed-State) Exampleのほう）
+"use client";
+// https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/ （Checkbox (Mixed-State) Exampleのほう）
 
-// import { useMemo, useState, useEffect } from "react";
-// import classNames from "classnames";
+import { useMemo } from "react";
+import classNames from "classnames";
+// import { checkbox as styles } from "./styles.css";
 
-// type CheckItem = {
-//   id: string;
-//   label: string;
-//   checked: boolean;
-// };
+// TODO:
+// - スタイル付ける
 
-// type Props = {
-//   legend: string;
-//   className?: string;
-// };
+// NOTE: 余裕ある時に挑戦してみる
+// - 1つ目の要素は必須の型定義、ジェネリクス型つかって汎用化できないか考える
+// - onChangeInputなどでas CheckboxItemsをつけているが、より良い方法がないか考える（コードが複雑になるようであれば「1つ目の要素は必須」の型指定を見なおしたほうがいいか？ ※itemsが空配列も許容できるようなコードに直す）
+// - input要素の部分をコンポーネントにして、汎用性を持たせる
 
-// const Checkbox = ({ legend, className }: Props) => {
-//   const [checkItems, setCheckItems] = useState<CheckItem[]>([
-//     { id: "check1", label: "Check 1", checked: false },
-//   ]);
+type CheckboxItem = {
+  id: string;
+  label: string;
+  checked: boolean;
+};
 
-//   return (
-//     <fieldset className={classNames(className)}>
-//       <legend>{legend}</legend>
-//     </fieldset>
-//   );
-// };
+export type CheckboxItems = [CheckboxItem, ...CheckboxItem[]];
 
-// export default Checkbox;
+type Props = {
+  legend: string;
+  // NOTE: 1つ以上のチェックボックスがあることを保証するため、1つ目の要素は必須としている
+  items: CheckboxItems;
+  className?: string;
+  onChange: (items: CheckboxItems) => void;
+};
+
+const Checkbox = ({ legend, items, className, onChange }: Props) => {
+  const allChecked = useMemo(() => {
+    const isAllChecked = items.every((item) => item.checked === true);
+    const isAllUnChecked = items.every((item) => item.checked === false);
+    return isAllChecked ? "true" : isAllUnChecked ? "false" : "mixed";
+  }, [items]);
+
+  const allControls = useMemo(() => {
+    return items.map((item) => item.id).join(" ");
+  }, [items]);
+
+  const onChangeInput = (id: string) => {
+    const changedItems = items.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    ) as CheckboxItems;
+    onChange(changedItems);
+  };
+
+  const onClickAll = () => {
+    const isAllChecked = allChecked === "true";
+    const changedItems = items.map((item) => ({
+      ...item,
+      checked: !isAllChecked,
+    })) as CheckboxItems;
+    onChange(changedItems);
+  };
+
+  return (
+    <fieldset
+      // className={classNames(className, styles.main)}
+      className={classNames(className)}
+    >
+      <legend>{legend}</legend>
+      <div
+        role="checkbox"
+        aria-checked={allChecked}
+        aria-controls={allControls}
+        tabIndex={0}
+        onClick={onClickAll}
+        // NOTE: キーボード操作に対応するため、Spaceキーで選択できるようにしている
+        onKeyDown={(e) => {
+          if (e.key === " ") {
+            onClickAll();
+          }
+        }}
+      >
+        All
+      </div>
+      <ul>
+        {items.map((item) => (
+          <li key={item.id}>
+            <input
+              type="checkbox"
+              id={item.id}
+              checked={item.checked}
+              onChange={() => onChangeInput(item.id)}
+            />
+            <label htmlFor={item.id}>{item.label}</label>
+          </li>
+        ))}
+      </ul>
+    </fieldset>
+  );
+};
+
+export default Checkbox;
