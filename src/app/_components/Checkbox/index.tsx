@@ -7,8 +7,11 @@ import classNames from "classnames";
 
 // TODO:
 // - スタイル付ける
+
+// NOTE: 余裕ある時に挑戦してみる
 // - 1つ目の要素は必須の型定義、ジェネリクス型つかって汎用化できないか考える
-// - onChangeInputなどでas CheckboxItemsをつけているが、より良い方法がないか考える
+// - onChangeInputなどでas CheckboxItemsをつけているが、より良い方法がないか考える（コードが複雑になるようであれば「1つ目の要素は必須」の型指定を見なおしたほうがいいか？ ※itemsが空配列も許容できるようなコードに直す）
+// - input要素の部分をコンポーネントにして、汎用性を持たせる
 
 type CheckboxItem = {
   id: string;
@@ -65,6 +68,12 @@ const Checkbox = ({ legend, items, className, onChange }: Props) => {
         aria-controls={allControls}
         tabIndex={0}
         onClick={onClickAll}
+        // NOTE: キーボード操作に対応するため、Spaceキーで選択できるようにしている
+        onKeyDown={(e) => {
+          if (e.key === " ") {
+            onClickAll();
+          }
+        }}
       >
         All
       </div>
