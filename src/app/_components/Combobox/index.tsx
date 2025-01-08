@@ -4,12 +4,18 @@
 // - https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/combobox_role
 //  - https://developer.mozilla.org/ja/docs/Web/Accessibility/ARIA/Roles/listbox_role
 
-import { useMemo, useState, useEffect, useRef } from "react";
+import {
+  useMemo,
+  useState,
+  useEffect,
+  useRef,
+  FocusEvent as ReactFocusEvent,
+} from "react";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import { combobox as styles } from "./styles.css";
 
-type Option = {
+export type Option = {
   value: string;
   label: string;
 };
@@ -37,20 +43,33 @@ type Props = {
 
 const Combobox = ({ label, options, currentValue, onChange }: Props) => {
   const [id, setId] = useState<string>("");
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isListboxOpen, setIsListboxOpen] = useState<boolean>(false);
   const labelId = useMemo(() => `label-${id}`, [id]);
   const comboboxId = useMemo(() => `combobox-${id}`, [id]);
   const listboxId = useMemo(() => `listbox-${id}`, [id]);
   const currentOption = options.find((option) => option.value === currentValue);
   const comboboxRef = useRef<HTMLDivElement>(null);
+  const listboxRef = useRef<HTMLDivElement>(null);
 
   const onClickLabel = () => {
     comboboxRef.current?.focus();
   };
-  const onBlurCombobox = () => {};
-  const onClickCombobox = () => {};
+  const onBlurCombobox = (e: ReactFocusEvent<HTMLDivElement>) => {
+    if (listboxRef.current?.contains(e.relatedTarget)) return;
+    if (isListboxOpen) {
+      // TODO: 選択中の項目をcurrentに設定（キーボード移動でアクティブな項目 ※参考コードのjsだとactiveIndex。おそらくuseStateで変数作る必要ある？）
+      // onChange()
+      setIsListboxOpen(false);
+    }
+  };
+  const onClickCombobox = () => {
+    setIsListboxOpen(!isListboxOpen);
+  };
   const onKeyDownCombobox = () => {};
-  const onClickOption = () => {};
+  const onClickOption = (value: string) => {
+    onChange(value);
+    setIsListboxOpen(false);
+  };
   const onMousedownOption = () => {};
 
   useEffect(() => {
@@ -67,6 +86,9 @@ const Combobox = ({ label, options, currentValue, onChange }: Props) => {
         aria-expanded="false"
         aria-haspopup="listbox"
         aria-labelledby={labelId}
+        aria-activedescendant={
+          currentValue ? `${id}-${currentValue}` : undefined
+        }
         id={comboboxId}
         role="combobox"
         tabIndex={0}
@@ -83,6 +105,11 @@ const Combobox = ({ label, options, currentValue, onChange }: Props) => {
         aria-labelledby={labelId}
         tabIndex={-1}
         onBlur={onBlurCombobox}
+        ref={listboxRef}
+        // TODO: 一旦暫定対応。タグ側ではdata属性に開閉状態を反映させて、スタイルはCSSで設定する
+        style={{
+          display: isListboxOpen ? "block" : "none",
+        }}
       >
         {options.map((option) => {
           const optionId = `${id}-${option.value}`;
@@ -92,7 +119,7 @@ const Combobox = ({ label, options, currentValue, onChange }: Props) => {
               role="option"
               aria-selected={option.value === currentValue}
               id={optionId}
-              onClick={onClickOption}
+              onClick={() => onClickOption(option.value)}
               onMouseDown={onMousedownOption}
             >
               {option.label}

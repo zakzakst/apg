@@ -6,6 +6,18 @@ import Alert from "@/app/_components/Alert";
 import Breadcrumb, { BreadcrumbItems } from "@/app/_components/Breadcrumb";
 import Button from "@/app/_components/Button";
 import Checkbox, { CheckboxItems } from "@/app/_components/Checkbox";
+import Combobox from "@/app/_components/Combobox";
+
+const comboboxOptions = [
+  {
+    value: "comboboxOption1",
+    label: "comboboxOption1",
+  },
+  {
+    value: "comboboxOption2",
+    label: "comboboxOption2",
+  },
+];
 
 const SamplePage = () => {
   const [isShowAlert, setIsShowAlert] = useState<boolean>(false);
@@ -13,6 +25,7 @@ const SamplePage = () => {
     { id: "check1", label: "Check 1", checked: false },
     { id: "check2", label: "Check 2", checked: false },
   ]);
+  const [comboboxValue, setComboboxValue] = useState("");
 
   const breadcrumbItems = useMemo<BreadcrumbItems>(() => {
     return [
@@ -57,6 +70,12 @@ const SamplePage = () => {
         items={checkboxItems}
         className="custom-class"
         onChange={(items) => setCheckboxItems(items)}
+      />
+      <Combobox
+        label="Combobox"
+        options={comboboxOptions}
+        currentValue={comboboxValue}
+        onChange={setComboboxValue}
       />
     </>
   );
