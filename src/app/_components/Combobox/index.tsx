@@ -10,6 +10,7 @@ import {
   useEffect,
   useRef,
   FocusEvent as ReactFocusEvent,
+  KeyboardEvent as ReactKeyboardEvent,
 } from "react";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
@@ -27,19 +28,60 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-// const SelectActions = {
-//   Close: 0,
-//   CloseSelect: 1,
-//   First: 2,
-//   Last: 3,
-//   Next: 4,
-//   Open: 5,
-//   PageDown: 6,
-//   PageUp: 7,
-//   Previous: 8,
-//   Select: 9,
-//   Type: 10,
-// };
+const SelectActions = {
+  Close: 0,
+  CloseSelect: 1,
+  First: 2,
+  Last: 3,
+  Next: 4,
+  Open: 5,
+  PageDown: 6,
+  PageUp: 7,
+  Previous: 8,
+  Select: 9,
+  Type: 10,
+};
+
+const getActionFromKey = (
+  e: ReactKeyboardEvent<HTMLDivElement>,
+  isListboxOpen: boolean
+) => {
+  const { key, altKey, ctrlKey, metaKey } = e;
+  const openKeys = ["ArrowDown", "ArrowUp", "Enter", " "];
+  if (!isListboxOpen && openKeys.includes(key)) {
+    return SelectActions.Open;
+  }
+  if (key === "Home") {
+    return SelectActions.First;
+  }
+  if (key === "end") {
+    return SelectActions.Last;
+  }
+  if (
+    key === "Backspace" ||
+    key === "Clear" ||
+    (key.length === 1 && key !== " " && !altKey && !ctrlKey && !metaKey)
+  ) {
+    return SelectActions.Type;
+  }
+  if (isListboxOpen) {
+    if (key === "ArrowUp" && altKey) {
+      return SelectActions.CloseSelect;
+    } else if (key === "ArrowDown" && !altKey) {
+      return SelectActions.Next;
+    } else if (key === "ArrowUp") {
+      return SelectActions.Previous;
+    } else if (key === "PageUp") {
+      return SelectActions.PageUp;
+    } else if (key === "PageDown") {
+      return SelectActions.PageDown;
+    } else if (key === "Escape") {
+      return SelectActions.Close;
+    } else if (key === "Enter" || key === " ") {
+      return SelectActions.CloseSelect;
+    }
+  }
+};
 
 const Combobox = ({ label, options, currentValue, onChange }: Props) => {
   const [id, setId] = useState<string>("");
@@ -65,7 +107,46 @@ const Combobox = ({ label, options, currentValue, onChange }: Props) => {
   const onClickCombobox = () => {
     setIsListboxOpen(!isListboxOpen);
   };
-  const onKeyDownCombobox = () => {};
+  const onKeyDownCombobox = (e: ReactKeyboardEvent<HTMLDivElement>) => {
+    const { key } = e;
+    const max = options.length - 1;
+    const action = getActionFromKey(e, isListboxOpen);
+
+    switch (action) {
+      case SelectActions.Last:
+      case SelectActions.First:
+        setIsListboxOpen(true);
+        return;
+
+      case SelectActions.Next:
+      case SelectActions.Previous:
+      case SelectActions.PageUp:
+      case SelectActions.PageDown:
+        e.preventDefault();
+        // TODO: 元コードのonOptionChangeのところ対応
+        return;
+
+      case SelectActions.CloseSelect:
+        e.preventDefault();
+        // TODO: 元コードのselectOptionのところ対応
+        return;
+
+      case SelectActions.Close:
+        e.preventDefault();
+        setIsListboxOpen(false);
+        return;
+
+      case SelectActions.Type:
+        e.preventDefault();
+        // TODO: 元コードのonComboTypeのところ対応
+        return;
+
+      case SelectActions.Open:
+        e.preventDefault();
+        setIsListboxOpen(true);
+        return;
+    }
+  };
   const onClickOption = (value: string) => {
     onChange(value);
     setIsListboxOpen(false);
