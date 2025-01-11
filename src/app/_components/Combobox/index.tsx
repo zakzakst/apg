@@ -92,9 +92,38 @@ const Combobox = ({ label, options, currentValue, onChange }: Props) => {
   const currentOption = options.find((option) => option.value === currentValue);
   const comboboxRef = useRef<HTMLDivElement>(null);
   const listboxRef = useRef<HTMLDivElement>(null);
+  const [searchTimeout, setSearchTimeout] = useState<
+    number | NodeJS.Timeout | null
+  >(null);
+  const [searchString, setSearchString] = useState<string>("");
 
   const onClickLabel = () => {
     comboboxRef.current?.focus();
+  };
+  const getSearchString = (letter: string) => {
+    const SearchTypeInterval = 500;
+    if (typeof searchTimeout === "number") {
+      window.clearTimeout(searchTimeout);
+    }
+    setSearchTimeout(
+      window.setTimeout(() => {
+        setSearchString("");
+      }, SearchTypeInterval)
+    );
+    const updatedSearchString = searchString + letter;
+    setSearchString(updatedSearchString);
+    return updatedSearchString;
+  };
+  const getIndexByLetter = (letter: string): number => {
+    // TODO: 元コードのgetIndexByLetterのところ対応
+    return -1;
+  };
+  const onTypeCombobox = (letter: string) => {
+    setIsListboxOpen(true);
+    const currentSearchString = getSearchString(letter);
+    const searchIndex = getIndexByLetter(currentSearchString);
+    console.log(searchIndex);
+    // TODO: 元コードのonComboTypeのところ対応
   };
   const onBlurCombobox = (e: ReactFocusEvent<HTMLDivElement>) => {
     if (listboxRef.current?.contains(e.relatedTarget)) return;
@@ -138,7 +167,7 @@ const Combobox = ({ label, options, currentValue, onChange }: Props) => {
 
       case SelectActions.Type:
         e.preventDefault();
-        // TODO: 元コードのonComboTypeのところ対応
+        onTypeCombobox(key);
         return;
 
       case SelectActions.Open:
