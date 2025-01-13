@@ -1,10 +1,9 @@
 import axios from "axios";
 
-const baseDomein: string = "http://localhost:3000";
+const baseDomein: string = "https://jsonplaceholder.typicode.com";
 
 const Repository = axios.create({
   baseURL: baseDomein,
-  // withCredentials: true,
 });
 
 export default Repository;

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Sample from "@/app/_components/Sample";
 import Accordion from "@/app/_components/Accordion";
 import Alert from "@/app/_components/Alert";
@@ -7,6 +7,8 @@ import Breadcrumb, { BreadcrumbItems } from "@/app/_components/Breadcrumb";
 import Button from "@/app/_components/Button";
 import Checkbox, { CheckboxItems } from "@/app/_components/Checkbox";
 import Combobox from "@/app/_components/Combobox";
+
+import UsersRepository from "@/app/_repositories/users";
 
 const comboboxOptions = [
   {
@@ -33,6 +35,15 @@ const SamplePage = () => {
       { href: "/products", label: "Products" },
       { href: "/sample", label: "Sample" },
     ];
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      // TODO: エラーハンドリングも対応する
+      const usersApi = UsersRepository();
+      const usersItems = await usersApi.get();
+      console.log(usersItems.data[0].address);
+    })();
   }, []);
 
   return (
