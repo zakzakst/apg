@@ -8,6 +8,7 @@ import Button from "@/app/_components/Button";
 import Checkbox, { CheckboxItems } from "@/app/_components/Checkbox";
 import Combobox from "@/app/_components/Combobox";
 
+import { User } from "@/app/_types/user";
 import UsersRepository from "@/app/_repositories/users";
 
 const comboboxOptions = [
@@ -28,6 +29,7 @@ const SamplePage = () => {
     { id: "check2", label: "Check 2", checked: false },
   ]);
   const [comboboxValue, setComboboxValue] = useState("");
+  const [users, setUsers] = useState<User[]>([]);
 
   const breadcrumbItems = useMemo<BreadcrumbItems>(() => {
     return [
@@ -39,10 +41,13 @@ const SamplePage = () => {
 
   useEffect(() => {
     (async () => {
-      // TODO: エラーハンドリングも対応する
-      const usersApi = UsersRepository();
-      const usersItems = await usersApi.get();
-      console.log(usersItems.data[0].address);
+      try {
+        const usersApi = UsersRepository();
+        const res = await usersApi.get();
+        setUsers(res.data);
+      } catch (e) {
+        console.error(e);
+      }
     })();
   }, []);
 
@@ -88,6 +93,7 @@ const SamplePage = () => {
         currentValue={comboboxValue}
         onChange={setComboboxValue}
       />
+      {users.length > 0 && <p>{JSON.stringify(users[0])}</p>}
     </>
   );
 };
