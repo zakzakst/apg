@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const baseDomein: string = "https://jsonplaceholder.typicode.com";
+const nextBaseDomein: string = "http://localhost:3000/api";
 
 // export type Response<T> =
 //   | {
@@ -20,8 +21,10 @@ export type Response<T> = {
   data: T;
 };
 
-const Repository = axios.create({
+export const Repository = axios.create({
   baseURL: baseDomein,
 });
 
-export default Repository;
+export const NextRepository = axios.create({
+  baseURL: nextBaseDomein,
+});
