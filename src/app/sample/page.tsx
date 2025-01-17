@@ -9,7 +9,9 @@ import Checkbox, { CheckboxItems } from "@/app/_components/Checkbox";
 import Combobox from "@/app/_components/Combobox";
 
 import { User } from "@/app/_types/user";
+// TODO: RepositoryFactory使う形にする
 import UsersRepository from "@/app/_repositories/users";
+import BlogRepository from "@/app/_repositories/blog";
 
 const comboboxOptions = [
   {
@@ -45,6 +47,22 @@ const SamplePage = () => {
         const usersApi = UsersRepository();
         const res = await usersApi.get();
         setUsers(res.data);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const blogApi = BlogRepository();
+        const res = await blogApi.post({
+          year: "2025",
+          month: "01",
+          date: "17",
+        });
+        console.log(res);
       } catch (e) {
         console.error(e);
       }

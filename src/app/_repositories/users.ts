@@ -1,5 +1,5 @@
 // https://qiita.com/squarekzmlviy/items/0de19af2655cfd0a4d3e
-import Repository, { Response } from "./_repository";
+import { Repository, Response } from "./_repository";
 import { User } from "@/app/_types/user";
 const resource: string = "/users";
 
