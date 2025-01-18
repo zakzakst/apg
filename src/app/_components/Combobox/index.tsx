@@ -9,10 +9,11 @@ import {
   useState,
   useEffect,
   useRef,
+  useId,
   FocusEvent as ReactFocusEvent,
   KeyboardEvent as ReactKeyboardEvent,
 } from "react";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import { combobox as styles } from "./styles.css";
 
@@ -84,7 +85,8 @@ const getActionFromKey = (
 };
 
 const Combobox = ({ label, options, currentValue, onChange }: Props) => {
-  const [id, setId] = useState<string>("");
+  // const [id, setId] = useState<string>("");
+  const id = useId();
   const [isListboxOpen, setIsListboxOpen] = useState<boolean>(false);
   const labelId = useMemo(() => `label-${id}`, [id]);
   const comboboxId = useMemo(() => `combobox-${id}`, [id]);
@@ -182,9 +184,9 @@ const Combobox = ({ label, options, currentValue, onChange }: Props) => {
   };
   const onMousedownOption = () => {};
 
-  useEffect(() => {
-    setId(uuidv4());
-  }, []);
+  // useEffect(() => {
+  //   setId(uuidv4());
+  // }, []);
 
   return (
     <div className={classNames(styles.main)}>

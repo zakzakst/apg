@@ -9,9 +9,7 @@ import Checkbox, { CheckboxItems } from "@/app/_components/Checkbox";
 import Combobox from "@/app/_components/Combobox";
 
 import { User } from "@/app/_types/user";
-// TODO: RepositoryFactory使う形にする
-import UsersRepository from "@/app/_repositories/users";
-import BlogRepository from "@/app/_repositories/blog";
+import RepositoryFactory from "@/app/_factories/apiRepositoryFactory";
 
 const comboboxOptions = [
   {
@@ -44,9 +42,12 @@ const SamplePage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const usersApi = UsersRepository();
-        const res = await usersApi.get();
-        setUsers(res.data);
+        const api = RepositoryFactory("users");
+        const res = await api.get();
+        // TODO: ここの部分は型の作成方法でもう少しすっきり書けるかもしれない。余裕がある時に挑戦する
+        if (res?.data) {
+          setUsers(res.data);
+        }
       } catch (e) {
         console.error(e);
       }
@@ -56,8 +57,8 @@ const SamplePage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const blogApi = BlogRepository();
-        const res = await blogApi.post({
+        const api = RepositoryFactory("blog");
+        const res = await api.post({
           year: "2025",
           month: "01",
           date: "17",

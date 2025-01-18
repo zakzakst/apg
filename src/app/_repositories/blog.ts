@@ -5,13 +5,14 @@ const resource: string = "/blogs";
 type PostBlogRequest = Blog;
 type PostBlogResponse = Response<Blog>;
 
-const BlogRepository = () => ({
+const BlogRepository = {
   // get: (): Promise<GetBlogResponse> => {
   //   return Repository.get(`${resource}`);
   // },
+  get() {},
   post(payload: PostBlogRequest): Promise<PostBlogResponse> {
     return NextRepository.post(`${resource}`, payload);
   },
-});
+};
 
 export default BlogRepository;

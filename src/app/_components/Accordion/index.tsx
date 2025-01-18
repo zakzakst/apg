@@ -1,8 +1,13 @@
 "use client";
 // NOTE: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/examples/accordion/
 
-import { useMemo, useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
+import {
+  useMemo,
+  useState,
+  // useEffect,
+  useId,
+} from "react";
+// import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import type { HeadingTagName } from "@/app/_utils/types/common";
 // import { accordion as styles } from "./styles.css";
@@ -35,17 +40,18 @@ const Accordion = ({
   className,
 }: Props) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(expanded);
-  const [id, setId] = useState<string>("");
+  // const [id, setId] = useState<string>("");
+  const id = useId();
   const buttonId = useMemo(() => `button-${id}`, [id]);
   const contentId = useMemo(() => `content-${id}`, [id]);
   const TitleTag = titleTag;
 
   const onClickButton = () => setIsExpanded(!isExpanded);
 
-  useEffect(() => {
-    // NOTE: cryptoモジュールを試したが、ブラウザとNode.jsで使い方が違い、「描画されるHTMLが一致しない」エラーが出た。そのため、uuidを使うことにした。
-    setId(uuidv4());
-  }, []);
+  // useEffect(() => {
+  //   // NOTE: cryptoモジュールを試したが、ブラウザとNode.jsで使い方が違い、「描画されるHTMLが一致しない」エラーが出た。そのため、uuidを使うことにした。
+  //   setId(uuidv4());
+  // }, []);
 
   return (
     <div
