@@ -10,13 +10,14 @@ const resource: string = "/users";
 
 type GetUserResponse = Response<User[]>;
 
-const UsersRepository = () => ({
-  get: (): Promise<GetUserResponse> => {
+const UsersRepository = {
+  get(): Promise<GetUserResponse> {
     return Repository.get(`${resource}`);
   },
+  post() {},
   // post(payload: Object) {
   //   return Repository.post(`${resource}`, payload);
   // },
-});
+};
 
 export default UsersRepository;

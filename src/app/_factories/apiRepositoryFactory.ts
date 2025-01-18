@@ -11,8 +11,6 @@ const repositories = {
   blog: BlogRepository,
 };
 
-const RepositoryFactory = {
-  get: (name: keyof Repositories) => repositories[name],
-};
+const RepositoryFactory = (name: keyof Repositories) => repositories[name];
 
 export default RepositoryFactory;
